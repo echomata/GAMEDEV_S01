@@ -3,7 +3,6 @@ using UnityEngine;
 public class MovingPlatform : MonoBehaviour
 {
     [Header("Movement Settings")]
-    [Tooltip("Distance to move relative to starting position (X, Y, Z whole units)")]
     [SerializeField] private Vector3 moveOffset = new Vector3(0f, 0f, 24f);
     [SerializeField] private float speed = 8f;
 

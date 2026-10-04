@@ -4,17 +4,28 @@ using UnityEngine.SceneManagement;
 public class LevelFinish : MonoBehaviour
 {
     [Header("Finish Settings")]
+    [SerializeField] private float resetDelay = 5f;
     [SerializeField] private ParticleSystem winParticles;
-    [SerializeField] private bool reloadSceneOnWin = true;
-    [SerializeField] private float reloadDelay = 3f;
 
     private bool hasWon = false;
 
     private void OnTriggerEnter(Collider other)
     {
+        CheckPlayerWin(other.gameObject);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        CheckPlayerWin(collision.gameObject);
+    }
+
+    private void CheckPlayerWin(GameObject target)
+    {
         if (hasWon) return;
 
-        if (other.GetComponent<CharacterController>() != null || other.CompareTag("Player"))
+        if (target.GetComponent<CharacterController>() != null || 
+            target.GetComponent<PlayerMovement>() != null || 
+            target.CompareTag("Player"))
         {
             hasWon = true;
 
@@ -25,14 +36,11 @@ public class LevelFinish : MonoBehaviour
                 winParticles.Play();
             }
 
-            if (reloadSceneOnWin)
-            {
-                Invoke(nameof(RestartLevel), reloadDelay);
-            }
+            Invoke(nameof(ResetLevel), resetDelay);
         }
     }
 
-    private void RestartLevel()
+    private void ResetLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }

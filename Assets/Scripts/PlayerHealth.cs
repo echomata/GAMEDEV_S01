@@ -14,6 +14,7 @@ public class PlayerHealth : MonoBehaviour
     private float currentHealth;
     private CharacterController controller;
     private Vector3 initialPosition;
+    private Vector3 currentRespawnPoint;
     private float lastDamageTime = -999f;
 
     void Awake()
@@ -31,8 +32,14 @@ public class PlayerHealth : MonoBehaviour
             if (spawnObj != null) spawnPoint = spawnObj.transform;
         }
 
+        currentRespawnPoint = spawnPoint != null ? spawnPoint.position : initialPosition;
         currentHealth = maxHealth;
         UpdateUI();
+    }
+
+    public void SetCheckpoint(Vector3 checkpointPos)
+    {
+        currentRespawnPoint = checkpointPos;
     }
 
     public void TakeDamage(float amount)
@@ -54,19 +61,21 @@ public class PlayerHealth : MonoBehaviour
 
     private void DieAndRespawn()
     {
-        Debug.Log("Player died! Respawning at spawn point...");
+        Debug.Log("Player died! Respawning at checkpoint...");
 
         transform.SetParent(null);
         if (controller != null) controller.enabled = false;
 
-        Vector3 targetRespawn = spawnPoint != null ? spawnPoint.position : initialPosition;
-        transform.position = targetRespawn;
+        transform.position = currentRespawnPoint;
 
         if (controller != null) controller.enabled = true;
 
         // Restore health on respawn
         currentHealth = maxHealth;
         UpdateUI();
+
+        // Reset speed and jump boosts back to normal on death
+        GetComponent<PlayerMovement>()?.ResetModifiers();
     }
 
     private void UpdateUI()

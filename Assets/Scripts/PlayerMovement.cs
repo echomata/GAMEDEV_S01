@@ -18,8 +18,15 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 moveInput;
     private float xRotation = 0f;
 
+    private float baseMoveSpeed;
+    private float baseJumpHeight;
+    private Coroutine powerUpRoutine;
+
     void Start()
     {
+        baseMoveSpeed = moveSpeed;
+        baseJumpHeight = jumpHeight;
+
         controller = GetComponent<CharacterController>();
 
         if (playerCamera == null)
@@ -27,6 +34,32 @@ public class PlayerMovement : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+    }
+
+    public void ApplyPowerUp(float speedMultiplier, float jumpMultiplier, float duration = 0f)
+    {
+        if (powerUpRoutine != null) StopCoroutine(powerUpRoutine);
+
+        moveSpeed = baseMoveSpeed * speedMultiplier;
+        jumpHeight = baseJumpHeight * jumpMultiplier;
+
+        if (duration > 0f)
+        {
+            powerUpRoutine = StartCoroutine(ResetAfterDuration(duration));
+        }
+    }
+
+    public void ResetModifiers()
+    {
+        if (powerUpRoutine != null) StopCoroutine(powerUpRoutine);
+        moveSpeed = baseMoveSpeed;
+        jumpHeight = baseJumpHeight;
+    }
+
+    private System.Collections.IEnumerator ResetAfterDuration(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        ResetModifiers();
     }
 
     void Update()

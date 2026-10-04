@@ -26,6 +26,16 @@ public class Laser : MonoBehaviour
     {
         renderers = GetComponentsInChildren<Renderer>();
         colliders = GetComponentsInChildren<Collider>();
+
+        foreach (var col in colliders)
+        {
+            if (col.gameObject != this.gameObject)
+            {
+                var relay = col.gameObject.GetComponent<LaserDamageRelay>();
+                if (relay == null) relay = col.gameObject.AddComponent<LaserDamageRelay>();
+                relay.parentLaser = this;
+            }
+        }
     }
 
     void Start()
@@ -96,6 +106,11 @@ public class Laser : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        HandleHit(other);
+    }
+
+    public void HandleHit(Collider other)
+    {
         PlayerHealth health = other.GetComponent<PlayerHealth>() ?? other.GetComponentInParent<PlayerHealth>();
         if (health != null)
         {
@@ -125,5 +140,18 @@ public class Laser : MonoBehaviour
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(p2, 0.35f);
+    }
+}
+
+public class LaserDamageRelay : MonoBehaviour
+{
+    public Laser parentLaser;
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (parentLaser != null)
+        {
+            parentLaser.HandleHit(other);
+        }
     }
 }
