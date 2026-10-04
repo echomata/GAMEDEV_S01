@@ -56,6 +56,7 @@ public class PlayerHealth : MonoBehaviour
     {
         Debug.Log("Player died! Respawning at spawn point...");
 
+        transform.SetParent(null);
         if (controller != null) controller.enabled = false;
 
         Vector3 targetRespawn = spawnPoint != null ? spawnPoint.position : initialPosition;

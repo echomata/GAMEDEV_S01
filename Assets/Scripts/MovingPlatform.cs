@@ -21,6 +21,24 @@ public class MovingPlatform : MonoBehaviour
 
     void Update()
     {
+        if (activePlayer != null)
+        {
+            Collider col = GetComponent<Collider>();
+            if (col != null)
+            {
+                Bounds expanded = col.bounds;
+                expanded.Expand(4f);
+                if (!expanded.Contains(activePlayer.transform.position))
+                {
+                    activePlayer = null;
+                }
+            }
+            else if (Vector3.Distance(transform.position, activePlayer.transform.position) > 8f)
+            {
+                activePlayer = null;
+            }
+        }
+
         Vector3 destination = (activePlayer != null) ? targetPos : startPos;
 
         transform.position = Vector3.MoveTowards(transform.position, destination, speed * Time.deltaTime);

@@ -18,6 +18,30 @@ public class Elevator : MonoBehaviour
 
     void Update()
     {
+        if (playerOnElevator)
+        {
+            Collider col = GetComponent<Collider>();
+            GameObject player = GameObject.FindWithTag("Player");
+            if (player != null)
+            {
+                if (col != null)
+                {
+                    Bounds expanded = col.bounds;
+                    expanded.Expand(4f);
+                    if (!expanded.Contains(player.transform.position))
+                    {
+                        playerOnElevator = false;
+                        player.transform.SetParent(null);
+                    }
+                }
+                else if (Vector3.Distance(transform.position, player.transform.position) > 8f)
+                {
+                    playerOnElevator = false;
+                    player.transform.SetParent(null);
+                }
+            }
+        }
+
         Vector3 destination = playerOnElevator ? targetPos : startPos;
         transform.position = Vector3.MoveTowards(transform.position, destination, speed * Time.deltaTime);
     }
