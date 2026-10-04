@@ -4,25 +4,17 @@ using UnityEngine.SceneManagement;
 
 public class Laser : MonoBehaviour
 {
-    [Header("Waypoints (Where it Appears & Disappears)")]
-    [Tooltip("Drag a GameObject here where the laser will start/appear. If empty, uses this object's starting position.")]
+    [Header("Waypoints")]
     [SerializeField] private Transform startPoint;
-
-    [Tooltip("Drag a GameObject here where the laser will travel to and disappear.")]
     [SerializeField] private Transform endPoint;
 
     [Header("Movement & Timing")]
-    [Tooltip("Speed the laser moves from start to end")]
     [SerializeField] private float speed = 5f;
-
-    [Tooltip("Initial delay in seconds before the laser starts its very first cycle (great for staggering lasers)")]
     [SerializeField] private float startDelay = 0f;
-
-    [Tooltip("Pause duration in seconds after disappearing before it loops back and appears again")]
     [SerializeField] private float loopDelay = 1f;
 
     [Header("Player Interaction")]
-    [Tooltip("If checked, touching the player will restart the scene")]
+    [SerializeField] private float damage = 25f;
     [SerializeField] private bool killPlayerOnTouch = true;
 
     private Renderer[] renderers;
@@ -104,6 +96,13 @@ public class Laser : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        PlayerHealth health = other.GetComponent<PlayerHealth>() ?? other.GetComponentInParent<PlayerHealth>();
+        if (health != null)
+        {
+            health.TakeDamage(damage);
+            return;
+        }
+
         if (!killPlayerOnTouch) return;
 
         if (other.GetComponent<CharacterController>() != null || other.CompareTag("Player"))
