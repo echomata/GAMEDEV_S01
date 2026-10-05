@@ -126,21 +126,6 @@ public class Laser : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
-
-    private void OnDrawGizmos()
-    {
-        Vector3 p1 = startPoint != null ? startPoint.position : transform.position;
-        Vector3 p2 = endPoint != null ? endPoint.position : transform.position + transform.forward * 10f;
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(p1, p2);
-
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(p1, 0.35f);
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(p2, 0.35f);
-    }
 }
 
 public class LaserDamageRelay : MonoBehaviour
