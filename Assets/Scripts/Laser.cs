@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Laser : MonoBehaviour
 {
@@ -15,7 +14,6 @@ public class Laser : MonoBehaviour
 
     [Header("Player Interaction")]
     [SerializeField] private float damage = 25f;
-    [SerializeField] private bool killPlayerOnTouch = true;
 
     private Renderer[] renderers;
     private Collider[] colliders;
@@ -115,15 +113,6 @@ public class Laser : MonoBehaviour
         if (health != null)
         {
             health.TakeDamage(damage);
-            return;
-        }
-
-        if (!killPlayerOnTouch) return;
-
-        if (other.GetComponent<CharacterController>() != null || other.CompareTag("Player"))
-        {
-            Debug.Log("Hit by Laser!");
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
 }
