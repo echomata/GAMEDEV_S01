@@ -1,11 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-/// <summary>
-/// Reusable projectile shooter. Add this component to any GameObject and assign
-/// a muzzle/source transform if the projectile should originate from somewhere
-/// other than that object's transform.
-/// </summary>
 public class Shooter : MonoBehaviour
 {
     [Header("Shooting")]
