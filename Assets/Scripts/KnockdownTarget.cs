@@ -19,8 +19,6 @@ public class KnockdownTarget : MonoBehaviour
 
     private void Start()
     {
-        // Runtime-spawned cans are created after KnockdownCounter.Start(),
-        // so they need to find the counter themselves.
         if (counter == null)
             counter = FindFirstObjectByType<KnockdownCounter>();
     }
