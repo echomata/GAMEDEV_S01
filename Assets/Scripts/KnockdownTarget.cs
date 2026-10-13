@@ -19,9 +19,14 @@ public class KnockdownTarget : MonoBehaviour
         counter = owner;
     }
 
+    public void ResetCountedState()
+    {
+        hasBeenCounted = false;
+    }
+
     private void Update()
     {
-        if (hasBeenCounted || counter == null)
+        if (hasBeenCounted)
             return;
 
         float tilt = Vector3.Angle(transform.up, Vector3.up);
@@ -31,7 +36,9 @@ public class KnockdownTarget : MonoBehaviour
         if (isTilted || hasFallen)
         {
             hasBeenCounted = true;
-            counter.ReportKnockedDown(this);
+
+            if (counter != null)
+                counter.ReportKnockedDown(this);
         }
     }
 }
