@@ -1,11 +1,6 @@
 using System;
 using UnityEngine;
 
-/// <summary>
-/// Moves one target from its child StartPoint to its child EndPoint.
-/// The child points act as route markers and are cached before the target moves,
-/// just like the old Laser script.
-/// </summary>
 public class MovingTargetInstance : MonoBehaviour
 {
     [Header("Route Markers")]
