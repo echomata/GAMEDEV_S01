@@ -32,7 +32,7 @@ public class KnockdownCounter : MonoBehaviour
         if (countdownTimer != null && !countdownTimer.IsRunning)
             return;
 
-        knockedDown++;
+        knockedDown += target != null ? target.ScoreValue : 1;
         RefreshDisplay();
     }
 

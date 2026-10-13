@@ -4,14 +4,25 @@ public class KnockdownTarget : MonoBehaviour
 {
     [SerializeField, Range(1f, 89f)] private float knockdownAngle = 45f;
     [SerializeField, Min(0f)] private float minimumFallDistance = 0.25f;
+    [SerializeField, Min(0)] private int scoreValue = 1;
 
     private KnockdownCounter counter;
     private float startingWorldY;
     private bool hasBeenCounted;
 
+    public int ScoreValue => scoreValue;
+
     private void Awake()
     {
         startingWorldY = transform.position.y;
+    }
+
+    private void Start()
+    {
+        // Runtime-spawned cans are created after KnockdownCounter.Start(),
+        // so they need to find the counter themselves.
+        if (counter == null)
+            counter = FindFirstObjectByType<KnockdownCounter>();
     }
 
     public void Initialize(KnockdownCounter owner)
