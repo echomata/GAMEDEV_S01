@@ -5,6 +5,7 @@ using UnityEngine;
 public class KnockdownCounter : MonoBehaviour
 {
     [SerializeField] private TMP_Text counterText;
+    [SerializeField] private CountdownTimer countdownTimer;
 
     private KnockdownTarget[] targets;
     private int knockedDown;
@@ -17,6 +18,9 @@ public class KnockdownCounter : MonoBehaviour
         foreach (KnockdownTarget target in targets)
             target.Initialize(this);
 
+        if (countdownTimer == null)
+            countdownTimer = FindFirstObjectByType<CountdownTimer>();
+
         if (counterText != null)
             displayTemplate = counterText.text;
 
@@ -25,6 +29,9 @@ public class KnockdownCounter : MonoBehaviour
 
     public void ReportKnockedDown(KnockdownTarget target)
     {
+        if (countdownTimer != null && !countdownTimer.IsRunning)
+            return;
+
         knockedDown++;
         RefreshDisplay();
     }

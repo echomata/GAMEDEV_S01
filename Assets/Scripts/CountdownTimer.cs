@@ -14,6 +14,8 @@ public class CountdownTimer : MonoBehaviour
     private float remainingSeconds;
     private bool isRunning;
 
+    public bool IsRunning => isRunning;
+
     private void Start()
     {
         ResetTimer();

@@ -8,6 +8,7 @@ public class Shooter : MonoBehaviour
     [SerializeField, Min(0)] private int startingAmmo = 10;
     [SerializeField] private bool unlimitedAmmo = false;
     [SerializeField] private bool holdToFire = true;
+    [SerializeField] private CountdownTimer countdownTimer;
 
     [Header("Projectile")]
     [Tooltip("Optional prefab. If empty, a small sphere projectile is created automatically.")]
@@ -45,6 +46,9 @@ public class Shooter : MonoBehaviour
         if (aimCamera == null)
             aimCamera = Camera.main;
 
+        if (countdownTimer == null)
+            countdownTimer = FindFirstObjectByType<CountdownTimer>();
+
         crosshairTexture = new Texture2D(1, 1);
         crosshairTexture.name = "Shooter Crosshair Texture";
         crosshairTexture.hideFlags = HideFlags.HideAndDontSave;
@@ -72,7 +76,9 @@ public class Shooter : MonoBehaviour
 
     public bool TryFire()
     {
-        if (Time.time < nextFireTime || !HasAmmo)
+        if ((countdownTimer != null && !countdownTimer.IsRunning)
+            || Time.time < nextFireTime
+            || !HasAmmo)
             return false;
 
         nextFireTime = Time.time + Mathf.Max(0.01f, fireInterval);
