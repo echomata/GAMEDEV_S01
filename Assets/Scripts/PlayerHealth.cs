@@ -59,6 +59,15 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
+    public void KillInstantly()
+    {
+        if (currentHealth <= 0f) return;
+
+        currentHealth = 0f;
+        UpdateUI();
+        DieAndRespawn();
+    }
+
     private void DieAndRespawn()
     {
         Debug.Log("Player died! Respawning at checkpoint...");
@@ -70,11 +79,9 @@ public class PlayerHealth : MonoBehaviour
 
         if (controller != null) controller.enabled = true;
 
-        // Restore health on respawn
         currentHealth = maxHealth;
         UpdateUI();
 
-        // Reset speed and jump boosts back to normal on death
         GetComponent<PlayerMovement>()?.ResetModifiers();
     }
 
