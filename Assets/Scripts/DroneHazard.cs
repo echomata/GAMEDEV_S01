@@ -124,7 +124,9 @@ public class DroneHazard : MonoBehaviour
     {
         PlayerHealth health = other.GetComponent<PlayerHealth>() ?? other.GetComponentInParent<PlayerHealth>();
         if (health != null)
-            health.KillInstantly();
+        {
+            DetectPlayer();
+        }
     }
 
     private void DetectPlayer()
@@ -403,7 +405,7 @@ public class DroneHazard : MonoBehaviour
             groundNormal = Vector3.up;
 
         visibleBeam.SetPosition(0, Vector3.zero);
-        visibleBeam.SetPosition(1, Vector3.down * beamLength);
+        visibleBeam.SetPosition(1, visibleBeam.transform.InverseTransformPoint(groundPoint));
 
         visibleSpot.position = groundPoint;
         visibleSpot.rotation = Quaternion.FromToRotation(Vector3.up, groundNormal);
