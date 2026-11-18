@@ -1498,12 +1498,12 @@ MonoBehaviour:
       localRotation: {x: 0, y: 0, z: 0}
       scaleMultiplier: {x: 1, y: 1, z: 1}
     layer2:
-      sourceTexture: {fileID: 0}
+      sourceTexture: {fileID: 2800000, guid: b0fe1b797c6751f4b916c5c7fe629522, type: 3}
       localOffset: {x: 0, y: 0, z: 0}
       localRotation: {x: 0, y: 0, z: 0}
       scaleMultiplier: {x: 1, y: 1, z: 1}
     layer3:
-      sourceTexture: {fileID: 0}
+      sourceTexture: {fileID: 2800000, guid: 48289554d12f1c7469a77af6b344715d, type: 3}
       localOffset: {x: 0, y: 0, z: 0}
       localRotation: {x: 0, y: 0, z: 0}
       scaleMultiplier: {x: 1, y: 1, z: 1}
